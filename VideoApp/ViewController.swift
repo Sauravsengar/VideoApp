@@ -48,11 +48,11 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.reelsModel?.reels?.count ?? 0 
+        return self.reelsModel?.reels?.count ?? 0
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
         cell.backgroundColor = .lightGray
@@ -62,28 +62,40 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         let videoURL2 = self.reelsModel?.reels?[indexPath.row].arr?[1].video ?? ""
         let videoURL3 = self.reelsModel?.reels?[indexPath.row].arr?[2].video ?? ""
         let videoURL4 = self.reelsModel?.reels?[indexPath.row].arr?[3].video ?? ""
-       
+        
         cell.configure(with: [
             (videoURL1),
             (videoURL2),
             (videoURL3),
             (videoURL4)
         ])
-        DispatchQueue.main.async {
-            self.playVisibleCells()
-        }
         
+        // auto play will call multiple times here
+//        DispatchQueue.main.async {
+//            self.playVisibleCells()
+//        }
+//        
         return cell
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 450
     }
-   
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        playVisibleCells()
+    // it will play when user scroll 	
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        playVisibleCells()
+//    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let myCell = cell as? TableViewCell {
+            myCell.playVideosSequentially()
+        }
     }
-
+    
+        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+            playVisibleCells()
+        }
+    
     func playVisibleCells() {
         for cell in tableView.visibleCells {
             if let myCell = cell as? TableViewCell {
@@ -92,7 +104,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-  
- 
+    
+    
 }
 
