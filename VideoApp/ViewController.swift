@@ -56,8 +56,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
         cell.backgroundColor = .lightGray
-        // Configure with actual video and thumbnail URLs from your JSON response
-        // Configure with actual video and thumbnail URLs from your JSON response
+   
         let videoURL1 = self.reelsModel?.reels?[indexPath.row].arr?[0].video ?? ""
         let videoURL2 = self.reelsModel?.reels?[indexPath.row].arr?[1].video ?? ""
         let videoURL3 = self.reelsModel?.reels?[indexPath.row].arr?[2].video ?? ""
@@ -69,23 +68,14 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             (videoURL3),
             (videoURL4)
         ])
-        
-        // auto play will call multiple times here
-//        DispatchQueue.main.async {
-//            self.playVisibleCells()
-//        }
-//        
+     
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 450
     }
-    // it will play when user scroll 	
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        playVisibleCells()
-//    }
-    
+
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let myCell = cell as? TableViewCell {
             myCell.playVideosSequentially()
